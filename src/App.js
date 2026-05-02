@@ -10,6 +10,7 @@ import Footer from './Footer';
 function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+  const [nbRecherches, setNbRecherches] = useState(0);
 
   const lignes = [
     { id: 1, numero: "1", couleur: "#e74c3c", depart: "Parcelles Assainies", arrivee: "Plateau", arrets: 14,
@@ -24,14 +25,14 @@ function App() {
       listeArrets: ["Almadies", "Ngor", "Yoff", "Ouest Foire", "Liberte 6", "Colobane"] },
     { id: 6, numero: "12", couleur: "#e91e63", depart: "Yoff", arrivee: "Sandaga", arrets: 11,
       listeArrets: ["Yoff Village", "Aeroport LSS", "Parcelles U17", "Grand Yoff", "HLM", "Sandaga"] },
-     { id: 7, numero: "31", couleur: "#f39c12", depart: "Fann", arrivee: "HLM", arrets: 9,
+    { id: 7, numero: "31", couleur: "#f39c12", depart: "Fann", arrivee: "HLM", arrets: 9,
       listeArrets: ["Fann", "Point E", "Liberté 3", "Liberté 5", "HLM"] },
     { id: 8, numero: "42", couleur: "#2ecc71", depart: "Liberté 6", arrivee: "Dieuppeul", arrets: 7,
-     listeArrets: ["Liberté 6", "Liberté 5", "Liberté 4", "Dieuppeul"] },
+      listeArrets: ["Liberté 6", "Liberté 5", "Liberté 4", "Dieuppeul"] },
     { id: 9, numero: "18", couleur: "#c0392b", depart: "Sicap", arrivee: "Medina", arrets: 13,
-     listeArrets: ["Sicap Baobab", "Sicap Liberté", "HLM", "Fass", "Medina"] },
+      listeArrets: ["Sicap Baobab", "Sicap Liberté", "HLM", "Fass", "Medina"] },
     { id: 10, numero: "5", couleur: "#2980b9", depart: "Medina", arrivee: "Plateau", arrets: 8,
-  listeArrets: ["Medina", "Colobane", "Ponty", "Plateau"] },
+      listeArrets: ["Medina", "Colobane", "Ponty", "Plateau"] },
   ];
 
   const lignesFiltrees = lignes.filter(l =>
@@ -53,10 +54,22 @@ function App() {
       <Header />
       <main className="contenu">
         <StatReseau lignes={lignes} />
-        <Recherche valeur={recherche} onChange={setRecherche} />
+        <p className="compteur-recherche">
+          Vous avez effectué {nbRecherches} recherche{nbRecherches > 1 ? 's' : ''}
+        </p>
+        <Recherche
+          valeur={recherche}
+          onChange={(valeur) => {
+            setRecherche(valeur);
+            setNbRecherches(nb => nb + 1);
+          }}
+        />
         <p className="resultat-recherche">
           {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' : ''} trouvée{lignesFiltrees.length > 1 ? 's' : ''}
         </p>
+        {lignesFiltrees.length === 0 && (
+          <p className="aucune-ligne">Aucune ligne trouvée pour cette recherche.</p>
+        )}
         {lignesFiltrees.map(ligne => (
           <LigneBus
             key={ligne.id}
