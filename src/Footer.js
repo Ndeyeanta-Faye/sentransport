@@ -3,7 +3,7 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className="footer">
-      © 2026 SenTransport - ESP/UCAD
+      <p>&copy; 2026 SénTransport &mdash; ESP/UCAD</p>
     </footer>
   );
 }
